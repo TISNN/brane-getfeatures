@@ -1,6 +1,6 @@
-[![DOI](https://zenodo.org/badge/498528122.svg)](https://zenodo.org/badge/latestdoi/498528122)
-
 # WSCBS_Assignment4b_brane_FeaturesEngineering
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6612428.svg)](https://doi.org/10.5281/zenodo.6612428)
 
 This implementation is the features engineering part of Titanic Project ([Machine Learning from Disaster](https://www.kaggle.com/c/titanic/overview)).
 

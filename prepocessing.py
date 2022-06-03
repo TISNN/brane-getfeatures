@@ -9,14 +9,20 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
 def processing(source: str) -> str:
+    ### alterative for pytest
+    file_path = "/data"
+    if source[:3] == "py_":
+        file_path = "./data"
+        source = source[3:]
 
-    train = pd.read_csv(f"/data/train.csv")
-    test = pd.read_csv(f"/data/test.csv")
+
+    train = pd.read_csv(f"{file_path}/train.csv")
+    test = pd.read_csv(f"{file_path}/test.csv")
 
     whole_data = pd.concat([train,test], ignore_index = True)
 
-        # Name processing
-        #Title Feature(New)
+    # Name processing
+    #Title Feature(New)
     whole_data['Title'] = whole_data['Name'].apply(lambda x:x.split(',')[1].split('.')[0].strip())
     whole_data['Title'].replace(['Mr'], 'Mr', inplace=True)
     whole_data['Title'].replace(['Mlle', 'Miss'], 'Miss', inplace=True)
@@ -48,7 +54,7 @@ def processing(source: str) -> str:
     Ticket_Count = dict(whole_data['Ticket'].value_counts())
     whole_data['Ticket_Class'] = whole_data['Ticket'].apply(lambda x:Ticket_Count[x])
 
-    ##Todo: 存Ticket_Class ， Survived -> ticket.csv
+    ##Todo: save Ticket_Class ， Survived -> ticket.csv
 
     # The survival rate of 'tickets' from 2 to 4 is higher than all others
     def Ticket_Label(t):
@@ -101,20 +107,17 @@ def processing(source: str) -> str:
 
     if source == "EDA":
         whole_data = whole_data[whole_data['Survived'].notnull()]
-        whole_data.to_csv(f"/data/data_for_visual.csv")
-        
-
+        whole_data.to_csv(f"{file_path}/data_for_visual.csv")
+    
     if source == "train":
-
         train=whole_data.loc[whole_data['Survived'].notnull()]
         whole_data=whole_data[['Survived','Pclass','Sex','Age','Fare','Embarked','Title','Family_label','Deck','Ticket_Class']]
         whole_data=pd.get_dummies(whole_data)
         train=whole_data[whole_data['Survived'].notnull()]
 
-        train.to_csv(f"/data/{source}_traindata.csv")
+        train.to_csv(f"{file_path}/{source}_traindata.csv")
 
     if source == "test":
-
         test=whole_data.loc[whole_data['Survived'].isnull()]
         test.loc[(test['Surname'].apply(lambda x:x in Dead_List)),'Sex'] = 'male'
         test.loc[(test['Surname'].apply(lambda x:x in Dead_List)),'Age'] = 60
@@ -128,12 +131,9 @@ def processing(source: str) -> str:
         whole_data=pd.get_dummies(whole_data)
         test=whole_data[whole_data['Survived'].isnull()].drop('Survived',axis=1)
 
-        test.to_csv(f"/data/{source}_testdata.csv")
-#"Figure saved to \"/data/number_of_words_{source}.png\""
-    return "features was saved at ./data"
+        test.to_csv(f"{file_path}/{source}_testdata.csv")
 
-    #except IOError as e:
-    #    return f"ERROR: {e} ({e.errno})"
+    return f"features was saved at {file_path}"
 
 if __name__ == "__main__":
     # Make sure that at least one argument is given, that is either 'write' or 'read'

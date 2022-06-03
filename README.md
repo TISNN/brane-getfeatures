@@ -1,4 +1,4 @@
-# WSCBS_Assignment4b_brane_FeaturesEngineering
+# WSCBS_Assignment4b_brane_getfeatures
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6612428.svg)](https://doi.org/10.5281/zenodo.6612428)
 

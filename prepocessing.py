@@ -99,7 +99,10 @@ def processing(source: str) -> str:
     Male_Adult_List=Male_Adult_Group.groupby('Surname')['Survived'].mean()
     Survived_List=set(Male_Adult_List[Male_Adult_List.apply(lambda x:x==1)].index)
 
-    whole_data.to_csv(f"/data/data_for_visual.csv")
+    if source == "EDA":
+        whole_data = whole_data[whole_data['Survived'].notnull()]
+        whole_data.to_csv(f"/data/data_for_visual.csv")
+        
 
     if source == "train":
 
